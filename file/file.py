@@ -1,4 +1,5 @@
 def read_cook_book(file_name):
+    cook_book = {}
     name = ''
     col = 0
     recipe = []
@@ -15,7 +16,7 @@ def read_cook_book(file_name):
                 col = int(line)
             else:
                 items = line.split(' | ')
-                recipe.append({'ingredient_name': items[0], 'quantity': items[1], 'measure': items[2]})
+                recipe.append({'ingredient_name': items[0], 'quantity': int(items[1]), 'measure': items[2]})
                 col -= 1
                 if col == 0:
                     cook_book[name] = recipe
@@ -23,25 +24,27 @@ def read_cook_book(file_name):
                     col = 0
                     recipe = []
 
+    return cook_book
+
 cook_book = read_cook_book('recipes.txt')
 print(cook_book)
 
-#
-# with open('recipes.txt', 'r') as f:
-#
-# with open('test.txt', 'r') as f:
-#     print(f.read())
-#
-# file_path = os.path.join(os.getcwd(), 'text.txt')
-#
-# with open('test.txt', 'r') as f:
-#     print(f.read())
-#
-# # print(os.getcwd())
-#
-# #
-# # data = f.read()
-# # print(data)
-# #
-# # f.close()
-# # print(type(f))
+#task 2
+def get_shop_list_by_dishes(dishes, person_count):
+    shop_list = {}
+    for dish in dishes:
+        if dish in cook_book:
+            recipe = cook_book[dish]
+            for product in recipe:
+                name = product['ingredient_name']
+                if name in shop_list:
+                    shop_list[name]['quantity'] += product['quantity'] * person_count
+                else:
+                    shop_list[name] = {'measure': product['measure'], 'quantity': product['quantity'] * person_count}
+
+    return shop_list
+
+shop_list = get_shop_list_by_dishes(['Запеченный картофель', 'Омлет'], 2)
+print(shop_list)
+
+
