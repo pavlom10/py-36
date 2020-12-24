@@ -1,6 +1,3 @@
-file_names = ['1.txt', '2.txt', '3.txt']
-result_file_name = 'sorted.txt'
-
 def sort_files(file_names, result_file_name):
     file_length = {}
     file_text = {}
@@ -24,6 +21,6 @@ def sort_files(file_names, result_file_name):
                 f.write(line)
             f.write('\n')
 
-sort_files(file_names, result_file_name)
+sort_files(['1.txt', '2.txt', '3.txt'], 'sorted.txt')
 
 
