@@ -8,7 +8,7 @@ def get_top_words(text, top=10, min_length=6):
     words_count = {}
     words = text.split(' ')
     for word in words:
-        if (len(word) >= min_length):
+        if len(word) >= min_length:
             if word in words_count:
                 words_count[word] += 1
             else:
@@ -22,7 +22,7 @@ with open('newsafr.json', encoding='utf-8') as f:
     items = data['rss']['channel']['items']
     text = ''
     for item in items:
-        text += item['description']
+        text += item['description'] + ' '
 
     top_words = get_top_words(text)
     print(top_words)
