@@ -103,29 +103,3 @@ class VkUser:
             return None
 
         return res['items'][0]['id']
-
-
-if __name__ == '__main__':
-    pass
-    # user_params = {
-    #     'count': 10,
-    #     'offset': 20,
-    #     'sex': 1,
-    #     'age_from': 25,
-    #     'age_to': 35,
-    #     'city': 2,
-    # }
-    #
-    # my_user = VkUser(token)
-    # city = my_user.get_city_id('Санкт')
-    # print(city)
-    # self_info = my_user.get_self_info()
-    # print(self_info)
-    # users = my_user.get_users(user_params)
-    #
-    # for user in users:
-    #     photos = user.get_photos()
-    #     best_photos = user.get_best_photos(photos)
-    #     print(user.get_url())
-    #     print(best_photos)
-    #     time.sleep(1)
