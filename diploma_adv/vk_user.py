@@ -82,7 +82,8 @@ class VkUser:
     def get_self_info(self):
         url = self.api_url + 'users.get'
         params = {
-            'fields': 'sex,city,age,status'
+            'fields': 'sex,city,age,relation',
+            'user_id': self.owner_id
         }
         response = requests.get(url, params={**self.params, **params})
         res = response.json()['response'][0]

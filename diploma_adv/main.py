@@ -5,14 +5,14 @@ import diploma_adv.vk_user as vk_user
 import diploma_adv.db_log as db_log
 
 
-bot_token = '' # input('Token: ')
-user_token = ''
+BOT_TOKEN = '' # input('Token: ')
+USER_TOKEN = ''
 
-vk = vk_api.VkApi(token=bot_token)
+vk = vk_api.VkApi(token=BOT_TOKEN)
 longpoll = VkLongPoll(vk)
 
 search_params = {}  # параметры поиска для последующих запросов
-per_page = 10  # сколько анкет за раз
+PER_PAGE = 10  # сколько анкет за раз
 
 session = db_log.Session()
 
@@ -45,17 +45,17 @@ def prepare_self_info(user_id, self_info):
     if 'age' not in self_info:
         self_info['age'] = int(ask_for_info(user_id, 'Уточните возраст:'))
 
-    if 'status' not in self_info or self_info['status'] == '':
-        self_info['status'] = int(ask_for_info(user_id, 'Уточните статус (1-6):'))
+    if 'relation' not in self_info or self_info['relation'] == 0:
+        self_info['relation'] = int(ask_for_info(user_id, 'Уточните статус (1-8):'))
 
     res = {
-        'count': per_page,
+        'count': PER_PAGE,
         'offset': 0,
         'sex': sex,
         'age_from': self_info['age'] - 5,
         'age_to': self_info['age'] + 5,
         'city': self_info['city']['id'],
-        'status': self_info['status']
+        'status': self_info['relation']
     }
 
     return res
@@ -71,14 +71,14 @@ def chat_bot():
                 write_msg(event.user_id, f"Привет, {event.user_id}...")
 
                 # Получить информацию о пользователе
-                user = vk_user.VkUser(user_token, user_id=event.user_id)
+                user = vk_user.VkUser(USER_TOKEN, user_id=event.user_id)
                 self_info = user.get_self_info()
 
                 # Проходим по полученной инфе и спрашиваем недостающее (+увеличиваем offset)
                 if event.user_id not in search_params:
                     search_params[event.user_id] = prepare_self_info(event.user_id, self_info)
                 else:
-                    search_params[event.user_id]['offset'] += per_page
+                    search_params[event.user_id]['offset'] += PER_PAGE
 
                 # Ищем пользователей учетом offset
                 find_users = user.get_users(search_params[event.user_id])
